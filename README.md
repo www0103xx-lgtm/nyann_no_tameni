@@ -166,3 +166,8 @@ PostgreSQLとMySQLのどちらでも今回のアプリは実装可能だが、Ra
 
 ・Railsのローカル開発経験はあるが、AWSへのデプロイ経験が不足している。
 ・グラフの実装経験がない。
+
+### 画面変移図
+
+https://www.figma.com/design/Mbdr6RONg1WoqHwkxBiwye/%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3_%E3%81%AB%E3%82%83%E3%82%93%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AB?node-id=0-1&p=f&m=draw
+
