@@ -5,6 +5,8 @@ RUN apt-get update -qq && \
     build-essential \
     libpq-dev \
     libvips \
+    chromium \
+    chromium-driver \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -18,5 +20,3 @@ COPY . .
 RUN chmod +x bin/docker-entrypoint
 
 ENTRYPOINT ["./bin/docker-entrypoint"]
-
-CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
