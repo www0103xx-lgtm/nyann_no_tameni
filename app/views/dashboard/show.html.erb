@@ -1,0 +1,17 @@
+<div class="dashboard">
+  <h1>にゃんのために。</h1>
+
+  <p>
+    <%= current_user.name %>さん、こんにちは！
+  </p>
+
+  <p>
+    にゃんこと一緒にダイエットをはじめよう！
+  </p>
+
+  <div class="dashboard__actions">
+    <p>ダイエットをはじめる</p>
+
+    <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+  </div>
+</div>
