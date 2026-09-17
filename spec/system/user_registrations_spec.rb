@@ -13,7 +13,7 @@ RSpec.describe "ユーザー登録", type: :system do
 
         click_button "登録する"
 
-        expect(page).to have_current_path(root_path)
+        expect(page).to have_current_path(dashboard_path)
       end
     end
   end
