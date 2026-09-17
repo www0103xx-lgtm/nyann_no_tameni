@@ -1,0 +1,36 @@
+<h1>にゃんのために。</h1>
+
+<% if @diet_challenge.errors.any? %>
+  <div>
+    <ul>
+      <% @diet_challenge.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @diet_challenge do |form| %>
+  <div>
+    <%= form.label :start_weight, "現在の体重" %>
+    <%= form.number_field :start_weight, step: 0.1, min: 0.1 %>
+    <span>kg</span>
+  </div>
+
+  <div>
+    <%= form.label :target_weight, "目標体重" %>
+    <%= form.number_field :target_weight, step: 0.1, min: 0.1 %>
+    <span>kg</span>
+  </div>
+
+  <%= form.fields_for :cat do |cat_form| %>
+    <div>
+      <%= cat_form.label :name, "猫の名前" %>
+      <%= cat_form.text_field :name %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit "にゃんこのお世話をはじめる。" %>
+  </div>
+<% end %>

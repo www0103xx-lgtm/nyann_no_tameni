@@ -10,9 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_15_112549) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_17_120203) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "cats", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "diet_challenge_id", null: false
+    t.integer "energy_points", default: 0, null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["diet_challenge_id"], name: "index_cats_on_diet_challenge_id", unique: true
+  end
+
+  create_table "diet_challenges", force: :cascade do |t|
+    t.date "achieved_at"
+    t.datetime "created_at", null: false
+    t.decimal "start_weight", precision: 5, scale: 1, null: false
+    t.date "started_at", null: false
+    t.decimal "target_weight", precision: 5, scale: 1, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_diet_challenges_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -26,4 +46,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_15_112549) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "cats", "diet_challenges"
+  add_foreign_key "diet_challenges", "users"
 end
