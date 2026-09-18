@@ -1,0 +1,7 @@
+ja:
+  activerecord:
+    attributes:
+      diet_challenge:
+        start_weight: "現在の体重"
+        target_weight: "目標体重"
+        started_at: "開始日"
