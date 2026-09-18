@@ -75,7 +75,7 @@ RSpec.describe "ダイエット挑戦開始", type: :system do
 
       click_button "にゃんこのお世話をはじめる。"
 
-      expect(page).to have_content("目標体重 は開始体重より小さい値を入力してください")
+      expect(page).to have_content("目標体重は開始体重より小さい値を入力してください")
       expect(page).to have_field("現在の体重", with: "60.0")
       expect(page).to have_field("目標体重", with: "65.0")
       expect(DietChallenge.count).to eq(0)

@@ -1,6 +1,7 @@
 class DietChallenge < ApplicationRecord
   belongs_to :user
   has_one :cat
+  has_many :weight_records
 
   accepts_nested_attributes_for :cat
 
