@@ -5,3 +5,6 @@ ja:
         start_weight: "現在の体重"
         target_weight: "目標体重"
         started_at: "開始日"
+      weight_record:
+        weight: "体重"
+        recorded_on: "記録日"

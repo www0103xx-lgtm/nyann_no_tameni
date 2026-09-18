@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_17_120203) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_18_115915) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -47,6 +47,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_17_120203) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "weight_records", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "diet_challenge_id", null: false
+    t.date "recorded_on", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "weight", precision: 5, scale: 1, null: false
+    t.index ["diet_challenge_id", "recorded_on"], name: "index_weight_records_on_diet_challenge_id_and_recorded_on", unique: true
+    t.index ["diet_challenge_id"], name: "index_weight_records_on_diet_challenge_id"
+  end
+
   add_foreign_key "cats", "diet_challenges"
   add_foreign_key "diet_challenges", "users"
+  add_foreign_key "weight_records", "diet_challenges"
 end
