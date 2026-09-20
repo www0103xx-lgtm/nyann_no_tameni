@@ -5,6 +5,12 @@
     <%= current_user.name %>さん、こんにちは！
   </p>
 
+  <% if @cat %>
+    <p>
+      現在のpt：<%= @cat.energy_points %>pt
+    </p>
+  <% end %>
+
   <p>
     にゃんこと一緒にダイエットをはじめよう！
   </p>
