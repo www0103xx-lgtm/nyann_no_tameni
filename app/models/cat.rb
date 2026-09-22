@@ -17,6 +17,32 @@ class Cat < ApplicationRecord
     end
   end
 
+  def image_path
+    case growth_stage
+    when "ガリガリにゃんこ"
+      "cats/skinny.png"
+    when "痩せ気味にゃんこ"
+      "cats/slim.png"
+    when "普通にゃんこ"
+      "cats/normal.png"
+    when "まん丸にゃんこ"
+      "cats/round.png"
+    end
+  end
+
+  def message
+    case growth_stage
+    when "ガリガリにゃんこ"
+      "お腹すいたにゃ……"
+    when "痩せ気味にゃんこ"
+      "少し元気になってきたにゃ！"
+    when "普通にゃんこ"
+      "元気いっぱいにゃ！"
+    when "まん丸にゃんこ"
+      "目標達成！しあわせにゃ！"
+    end
+  end
+
   private
 
   def target_weight_achieved?

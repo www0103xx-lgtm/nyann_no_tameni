@@ -6,9 +6,17 @@
   </p>
 
   <% if @cat %>
-    <p>
-      現在のpt：<%= @cat.energy_points %>pt
-    </p>
+    <div class="dashboard__cat">
+      <%= image_tag @cat.image_path, alt: @cat.growth_stage %>
+
+      <p>
+        <%= @cat.message %>
+      </p>
+
+      <p>
+        現在のpt：<%= @cat.energy_points %>pt
+      </p>
+    </div>
   <% end %>
 
   <p>
