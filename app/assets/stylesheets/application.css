@@ -8,3 +8,22 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+.dashboard__cat {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.dashboard__cat-message {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.dashboard__cat-image {
+  display: block;
+  width: 400px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}

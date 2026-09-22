@@ -1,31 +1,37 @@
 <div class="dashboard">
   <h1>にゃんのために。</h1>
 
+  <div class="dashboard__actions">
+    <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+  </div>
+
   <p>
     <%= current_user.name %>さん、こんにちは！
   </p>
 
   <% if @cat %>
-    <div class="dashboard__cat">
-      <%= image_tag @cat.image_path, alt: @cat.growth_stage %>
-
-      <p>
-        <%= @cat.message %>
-      </p>
-
-      <p>
-        現在のpt：<%= @cat.energy_points %>pt
-      </p>
-    </div>
+    <p>
+      現在のpt：<%= @cat.energy_points %>pt
+    </p>
   <% end %>
 
   <p>
     にゃんこと一緒にダイエットをはじめよう！
   </p>
 
-  <div class="dashboard__actions">
-    <p>ダイエットをはじめる</p>
+  <p>
+    今日の体重を記録してね！
+  </p>
 
-    <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
-  </div>
+  <% if @cat %>
+    <div class="dashboard__cat">
+      <p class="dashboard__cat-message">
+        <%= @cat.message %>
+      </p>
+
+      <%= image_tag @cat.image_path,
+                    alt: @cat.growth_stage,
+                    class: "dashboard__cat-image" %>
+    </div>
+  <% end %>
 </div>
