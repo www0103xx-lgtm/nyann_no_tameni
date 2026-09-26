@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get "dashboard", to: "dashboard#show", as: :dashboard
 
   resources :diet_challenges, only: %i[new create]
-  resources :weight_records, only: %i[new create edit update]
+  resources :weight_records, only: %i[index new create edit update]
 
   get "up" => "rails/health#show", as: :rails_health_check
 end

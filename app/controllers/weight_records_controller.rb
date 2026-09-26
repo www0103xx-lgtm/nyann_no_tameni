@@ -3,6 +3,10 @@ class WeightRecordsController < ApplicationController
   before_action :set_current_diet_challenge
   before_action :set_weight_record, only: %i[edit update]
 
+  def index
+    @weight_records = @diet_challenge.weight_records.order(:recorded_on)
+  end
+
   def new
     todays_record = @diet_challenge.weight_records.find_by(recorded_on: Date.current)
 

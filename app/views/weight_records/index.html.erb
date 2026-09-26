@@ -1,0 +1,23 @@
+<h1>体重の推移</h1>
+
+<% if @weight_records.any? %>
+  <%= line_chart @weight_records.map { |record|
+        [record.recorded_on, record.weight.to_f]
+      },
+      xtitle: "記録日",
+      ytitle: "体重（kg）",
+      suffix: " kg" %>
+
+  <ul>
+    <% @weight_records.each do |record| %>
+      <li>
+        <%= record.recorded_on %>：
+        <%= record.weight %> kg
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>体重記録がまだありません</p>
+<% end %>
+
+<%= link_to "ダッシュボードに戻る", dashboard_path %>
