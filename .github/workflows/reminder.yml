@@ -1,0 +1,37 @@
+name: Send Weight Reminders
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * *"
+      timezone: "Asia/Tokyo"
+
+jobs:
+  send_reminders:
+    runs-on: ubuntu-latest
+
+    env:
+      RAILS_ENV: production
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+      BREVO_SMTP_LOGIN: ${{ secrets.BREVO_SMTP_LOGIN }}
+      BREVO_SMTP_KEY: ${{ secrets.BREVO_SMTP_KEY }}
+      MAILER_FROM: ${{ secrets.MAILER_FROM }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install system packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libpq-dev libvips
+
+      - name: Send weight reminder emails
+        run: bin/rails reminder:send_weight_reminders
+        
