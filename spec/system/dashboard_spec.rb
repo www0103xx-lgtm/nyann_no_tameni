@@ -4,19 +4,18 @@ RSpec.describe "ユーザートップ", type: :system do
   let(:user) { create(:user) }
 
   context "ログインしている場合" do
-    it "ユーザートップを表示できる" do
-      user
+    context "進行中のダイエット挑戦がない場合" do
+      it "ダイエット挑戦開始画面へ遷移する" do
+        user
 
-      visit new_user_session_path
+        visit new_user_session_path
 
-      fill_in "メールアドレス", with: user.email
-      fill_in "パスワード", with: user.password
-      click_button "ログイン"
+        fill_in "メールアドレス", with: user.email
+        fill_in "パスワード", with: user.password
+        click_button "ログイン"
 
-      expect(page).to have_current_path(dashboard_path)
-      expect(page).to have_content("#{user.name}さん、こんにちは！")
-      expect(page).to have_content("にゃんこと一緒にダイエットをはじめよう！")
-      expect(page).to have_button("ログアウト")
+        expect(page).to have_current_path(new_diet_challenge_path)
+      end
     end
 
     context "猫がいる場合" do
