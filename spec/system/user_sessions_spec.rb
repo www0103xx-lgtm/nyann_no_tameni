@@ -4,10 +4,28 @@ RSpec.describe "ログイン・ログアウト", type: :system do
   let(:user) { create(:user) }
 
   describe "ログイン" do
-    context "入力内容が正常な場合" do
-      it "ログインできる" do
+    context "進行中のダイエット挑戦がない場合" do
+      it "ログイン後にダイエット挑戦開始画面へ遷移する" do
         user
 
+        visit new_user_session_path
+
+        fill_in "メールアドレス", with: user.email
+        fill_in "パスワード", with: user.password
+
+        click_button "ログイン"
+
+        expect(page).to have_current_path(new_diet_challenge_path)
+      end
+    end
+
+    context "進行中のダイエット挑戦がある場合" do
+      before do
+        diet_challenge = create(:diet_challenge, user: user)
+        create(:cat, diet_challenge: diet_challenge)
+      end
+
+      it "ログイン後にユーザートップへ遷移する" do
         visit new_user_session_path
 
         fill_in "メールアドレス", with: user.email
@@ -25,7 +43,8 @@ RSpec.describe "ログイン・ログアウト", type: :system do
 
   describe "ログアウト" do
     it "ログアウトできる" do
-      user
+      diet_challenge = create(:diet_challenge, user: user)
+      create(:cat, diet_challenge: diet_challenge)
 
       visit new_user_session_path
 

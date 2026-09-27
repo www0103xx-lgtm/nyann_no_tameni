@@ -4,19 +4,17 @@ RSpec.describe "ダイエット挑戦開始", type: :system do
   let(:user) { create(:user) }
 
   context "ログインしている場合" do
-    it "初期設定画面を表示できる" do
-      user
-
+    before do
       visit new_user_session_path
 
       fill_in "メールアドレス", with: user.email
       fill_in "パスワード", with: user.password
       click_button "ログイン"
 
-      expect(page).to have_current_path(dashboard_path)
+      expect(page).to have_current_path(new_diet_challenge_path)
+    end
 
-      visit new_diet_challenge_path
-
+    it "初期設定画面を表示できる" do
       expect(page).to have_content("にゃんのために。")
       expect(page).to have_field("現在の体重")
       expect(page).to have_field("目標体重")
@@ -25,18 +23,6 @@ RSpec.describe "ダイエット挑戦開始", type: :system do
     end
 
     it "ダイエット挑戦を開始できる" do
-      user
-
-      visit new_user_session_path
-
-      fill_in "メールアドレス", with: user.email
-      fill_in "パスワード", with: user.password
-      click_button "ログイン"
-
-      expect(page).to have_current_path(dashboard_path)
-
-      visit new_diet_challenge_path
-
       fill_in "現在の体重", with: 60.0
       fill_in "目標体重", with: 55.0
       fill_in "猫の名前", with: "ミケ"
@@ -57,18 +43,6 @@ RSpec.describe "ダイエット挑戦開始", type: :system do
     end
 
     it "目標体重が現在の体重以上の場合はダイエット挑戦を開始できない" do
-      user
-
-      visit new_user_session_path
-
-      fill_in "メールアドレス", with: user.email
-      fill_in "パスワード", with: user.password
-      click_button "ログイン"
-
-      expect(page).to have_current_path(dashboard_path)
-
-      visit new_diet_challenge_path
-
       fill_in "現在の体重", with: 60.0
       fill_in "目標体重", with: 65.0
       fill_in "猫の名前", with: "ミケ"
