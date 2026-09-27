@@ -46,6 +46,56 @@ RSpec.describe "ユーザートップ", type: :system do
         expect(page).to have_current_path(dashboard_path)
       end
 
+      it "ユーザーへの挨拶と案内を表示できる" do
+        expect(page).to have_content("#{user.name}さん、こんにちは！")
+        expect(page).to have_content("にゃんこと一緒にダイエットをはじめよう！")
+      end
+
+      it "体重登録への導線を表示できる" do
+        expect(page).to have_link("体重登録", href: new_weight_record_path)
+      end
+
+      it "これまでの記録への導線を表示できる" do
+        expect(page).to have_link("これまでの記録", href: weight_records_path)
+      end
+
+      context "今日の体重をまだ記録していない場合" do
+        it "体重記録を促すメッセージを表示できる" do
+          expect(page).to have_content("今日の体重を記録してね！")
+          expect(page).not_to have_content(
+            "体重記録ありがとう！また明日も会いに来てね！"
+          )
+        end
+
+        it "開始体重を基準に目標体重までの残りを表示できる" do
+          expect(page).to have_content("目標体重まであと5.0kg！！")
+        end
+      end
+
+      context "今日の体重を記録済みの場合" do
+        before do
+          create(
+            :weight_record,
+            diet_challenge: diet_challenge,
+            weight: 58.2,
+            recorded_on: Date.current
+          )
+
+          visit dashboard_path
+        end
+
+        it "体重記録へのお礼メッセージを表示できる" do
+          expect(page).to have_content(
+            "体重記録ありがとう！また明日も会いに来てね！"
+          )
+          expect(page).not_to have_content("今日の体重を記録してね！")
+        end
+
+        it "最新の体重を基準に目標体重までの残りを表示できる" do
+          expect(page).to have_content("目標体重まであと3.2kg！！")
+        end
+      end
+
       it "ガリガリにゃんこを表示できる" do
         expect(page).to have_css(
           'img[src*="cats/skinny"]',

@@ -9,15 +9,114 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
+.dashboard {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 40px 48px;
+}
+
+.dashboard__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.dashboard__header h1 {
+  margin: 0;
+}
+
+.dashboard__actions form {
+  margin: 0;
+}
+
+.dashboard__actions button {
+  padding: 8px 20px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dashboard__actions button:hover {
+  background-color: #f5f5f5;
+}
+
+.dashboard__greeting {
+  margin-top: 32px;
+  font-size: 18px;
+}
+
+.dashboard__introduction {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.dashboard__points {
+  margin: 32px 0 24px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.dashboard__navigation {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin: 24px 0 32px;
+}
+
+.dashboard__weight-link,
+.dashboard__records-link {
+  display: inline-block;
+  min-width: 220px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.dashboard__weight-link {
+  background-color: #d9534f;
+}
+
+.dashboard__records-link {
+  background-color: #5cb85c;
+}
+
+.dashboard__status {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.dashboard__remaining-weight {
+  margin-top: 24px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
 .dashboard__cat {
   text-align: center;
-  margin-top: 24px;
+  margin-top: 32px;
 }
 
 .dashboard__cat-message {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 16px 24px;
+  border: 2px solid #333;
+  border-radius: 16px;
   font-size: 18px;
   font-weight: bold;
-  margin-bottom: 16px;
 }
 
 .dashboard__cat-image {
@@ -26,4 +125,75 @@
   max-width: 100%;
   height: auto;
   margin: 0 auto;
+}
+
+.weight-record-form__field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  font-size: 18px;
+}
+
+.weight-record-form__input {
+  box-sizing: border-box;
+  width: 220px;
+  height: 44px;
+  padding: 8px 12px;
+  font-size: 18px;
+}
+
+.weight-record-form__submit {
+  margin-top: 20px;
+}
+
+.weight-record-form__button {
+  min-width: 140px;
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.back-button {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 8px 20px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.back-button:hover {
+  background-color: #f5f5f5;
+}
+
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 24px 16px 40px;
+  }
+
+  .dashboard__header {
+    align-items: flex-start;
+  }
+
+  .dashboard__navigation {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .dashboard__weight-link,
+  .dashboard__records-link {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .dashboard__cat-image {
+    width: 100%;
+  }
 }

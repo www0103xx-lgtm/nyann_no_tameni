@@ -1,23 +1,30 @@
-<h1>今日の体重を編集</h1>
+<div class="weight-record-form">
+  <h1>今日の体重を編集</h1>
 
-<% if @weight_record.errors.any? %>
-  <div>
-    <ul>
-      <% @weight_record.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+  <% if @weight_record.errors.any? %>
+    <div>
+      <ul>
+        <% @weight_record.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<%= form_with model: @weight_record do |form| %>
-  <div>
-    <%= form.label :weight, "今日の体重" %>
-    <%= form.number_field :weight, step: 0.1, min: 0.1 %>
-    <span>kg</span>
-  </div>
+  <%= form_with model: @weight_record do |form| %>
+    <div class="weight-record-form__field">
+      <%= form.label :weight, "今日の体重" %>
+      <%= form.number_field :weight,
+                            step: 0.1,
+                            min: 0.1,
+                            class: "weight-record-form__input" %>
+      <span>kg</span>
+    </div>
 
-  <div>
-    <%= form.submit "更新する" %>
-  </div>
-<% end %>
+    <div class="weight-record-form__submit">
+      <%= form.submit "更新する", class: "weight-record-form__button" %>
+    </div>
+  <% end %>
+
+  <%= link_to "戻る", dashboard_path, class: "back-button" %>
+</div>
