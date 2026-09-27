@@ -1,27 +1,47 @@
 <div class="dashboard">
-  <h1>にゃんのために。</h1>
+  <div class="dashboard__header">
+    <h1>にゃんのために。</h1>
 
-  <div class="dashboard__actions">
-    <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+    <div class="dashboard__actions">
+      <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+    </div>
   </div>
 
-  <p>
+  <p class="dashboard__greeting">
     <%= current_user.name %>さん、こんにちは！
   </p>
 
+  <p class="dashboard__introduction">
+    にゃんこと一緒にダイエットをはじめよう！
+  </p>
+
   <% if @cat %>
-    <p>
+    <p class="dashboard__points">
       現在のpt：<%= @cat.energy_points %>pt
     </p>
   <% end %>
 
-  <p>
-    にゃんこと一緒にダイエットをはじめよう！
-  </p>
+  <div class="dashboard__navigation">
+    <%= link_to "体重登録",
+                new_weight_record_path,
+                class: "dashboard__weight-link" %>
 
-  <p>
-    今日の体重を記録してね！
-  </p>
+    <%= link_to "これまでの記録",
+                weight_records_path,
+                class: "dashboard__records-link" %>
+  </div>
+
+  <div class="dashboard__status">
+    <% if @todays_weight_record %>
+      <p>体重記録ありがとう！また明日も会いに来てね！</p>
+    <% else %>
+      <p>今日の体重を記録してね！</p>
+    <% end %>
+
+    <p class="dashboard__remaining-weight">
+      目標体重まであと<%= @remaining_weight %>kg！！
+    </p>
+  </div>
 
   <% if @cat %>
     <div class="dashboard__cat">
