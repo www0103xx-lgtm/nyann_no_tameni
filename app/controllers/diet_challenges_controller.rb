@@ -1,5 +1,6 @@
 class DietChallengesController < ApplicationController
   before_action :authenticate_user!
+  before_action :redirect_if_active_challenge, only: %i[new create]
 
   def new
     @diet_challenge = current_user.diet_challenges.build
@@ -18,6 +19,12 @@ class DietChallengesController < ApplicationController
   end
 
   private
+
+  def redirect_if_active_challenge
+    return unless current_user.diet_challenges.where(achieved_at: nil).exists?
+
+    redirect_to dashboard_path
+  end
 
   def diet_challenge_params
     params.require(:diet_challenge).permit(

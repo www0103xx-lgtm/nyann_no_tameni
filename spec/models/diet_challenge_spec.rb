@@ -10,6 +10,51 @@ RSpec.describe DietChallenge, type: :model do
       end
     end
 
+    context "開始体重が未入力の場合" do
+      it "無効である" do
+        diet_challenge = build(:diet_challenge, start_weight: nil)
+
+        expect(diet_challenge).to be_invalid
+        expect(diet_challenge.errors[:start_weight]).to be_present
+      end
+    end
+
+    context "目標体重が未入力の場合" do
+      it "無効である" do
+        diet_challenge = build(:diet_challenge, target_weight: nil)
+
+        expect(diet_challenge).to be_invalid
+        expect(diet_challenge.errors[:target_weight]).to be_present
+      end
+    end
+
+    context "開始日が未入力の場合" do
+      it "無効である" do
+        diet_challenge = build(:diet_challenge, started_at: nil)
+
+        expect(diet_challenge).to be_invalid
+        expect(diet_challenge.errors[:started_at]).to be_present
+      end
+    end
+
+    context "開始体重が0の場合" do
+      it "無効である" do
+        diet_challenge = build(:diet_challenge, start_weight: 0)
+
+        expect(diet_challenge).to be_invalid
+        expect(diet_challenge.errors[:start_weight]).to be_present
+      end
+    end
+
+    context "目標体重が0の場合" do
+      it "無効である" do
+        diet_challenge = build(:diet_challenge, target_weight: 0)
+
+        expect(diet_challenge).to be_invalid
+        expect(diet_challenge.errors[:target_weight]).to be_present
+      end
+    end
+
     context "目標体重が開始体重と同じ場合" do
       it "無効である" do
         diet_challenge = build(:diet_challenge, start_weight: 60.0, target_weight: 60.0)
@@ -28,50 +73,45 @@ RSpec.describe DietChallenge, type: :model do
       end
     end
   end
-end
 
-  context "開始体重が未入力の場合" do
-  it "無効である" do
-    diet_challenge = build(:diet_challenge, start_weight: nil)
+  describe "#achieve_if_target_reached!" do
+    let(:diet_challenge) do
+      create(:diet_challenge, start_weight: 60.0, target_weight: 55.0)
+    end
 
-    expect(diet_challenge).to be_invalid
-    expect(diet_challenge.errors[:start_weight]).to be_present
-  end
-end
+    context "体重が目標体重より大きい場合" do
+      it "達成済みにならない" do
+        diet_challenge.achieve_if_target_reached!(56.0)
 
+        expect(diet_challenge.reload.achieved_at).to be_nil
+      end
+    end
 
-  context "目標体重が未入力の場合" do
-  it "無効である" do
-    diet_challenge = build(:diet_challenge, target_weight: nil)
+    context "体重が目標体重と同じ場合" do
+      it "達成日時が設定される" do
+        diet_challenge.achieve_if_target_reached!(55.0)
 
-    expect(diet_challenge).to be_invalid
-    expect(diet_challenge.errors[:target_weight]).to be_present
-  end
-end
+        expect(diet_challenge.reload.achieved_at).to be_present
+      end
+    end
 
-  context "開始日が未入力の場合" do
-  it "無効である" do
-    diet_challenge = build(:diet_challenge, started_at: nil)
+    context "体重が目標体重より小さい場合" do
+      it "達成日時が設定される" do
+        diet_challenge.achieve_if_target_reached!(54.9)
 
-    expect(diet_challenge).to be_invalid
-    expect(diet_challenge.errors[:started_at]).to be_present
-  end
-end
+        expect(diet_challenge.reload.achieved_at).to be_present
+      end
+    end
 
-  context "開始体重が0の場合" do
-  it "無効である" do
-    diet_challenge = build(:diet_challenge, start_weight: 0)
+    context "すでに達成済みの場合" do
+      it "達成日時を変更しない" do
+        achieved_at = 1.day.ago
+        diet_challenge.update!(achieved_at: achieved_at)
 
-    expect(diet_challenge).to be_invalid
-    expect(diet_challenge.errors[:start_weight]).to be_present
-  end
-end
-
-  context "目標体重が0の場合" do
-  it "無効である" do
-    diet_challenge = build(:diet_challenge, target_weight: 0)
-
-    expect(diet_challenge).to be_invalid
-    expect(diet_challenge.errors[:target_weight]).to be_present
+        expect {
+          diet_challenge.achieve_if_target_reached!(54.0)
+        }.not_to change { diet_challenge.reload.achieved_at }
+      end
+    end
   end
 end

@@ -45,6 +45,24 @@ RSpec.describe "体重記録", type: :system do
     expect(weight_record.diet_challenge).to eq(diet_challenge)
   end
 
+    it "目標体重以下を記録するとダイエット挑戦が達成済みになる" do
+    visit new_user_session_path
+
+    fill_in "メールアドレス", with: user.email
+    fill_in "パスワード", with: user.password
+    click_button "ログイン"
+
+    expect(page).to have_current_path(dashboard_path)
+
+    visit new_weight_record_path
+
+    fill_in "今日の体重", with: diet_challenge.target_weight
+    click_button "記録する"
+
+    expect(page).to have_current_path(dashboard_path)
+    expect(diet_challenge.reload.achieved_at).to be_present
+  end
+
   it "今日の体重を新しく記録すると猫の元気ポイントが1増える" do
     visit new_user_session_path
 
@@ -118,6 +136,31 @@ RSpec.describe "体重記録", type: :system do
 
     expect(weight_record.weight).to eq(59.8)
     expect(diet_challenge.weight_records.count).to eq(1)
+  end
+
+    it "体重を目標体重以下に編集するとダイエット挑戦が達成済みになる" do
+    weight_record = create(
+      :weight_record,
+      diet_challenge: diet_challenge,
+      weight: 60.0,
+      recorded_on: Date.current
+    )
+
+    visit new_user_session_path
+
+    fill_in "メールアドレス", with: user.email
+    fill_in "パスワード", with: user.password
+    click_button "ログイン"
+
+    expect(page).to have_current_path(dashboard_path)
+
+    visit edit_weight_record_path(weight_record)
+
+    fill_in "今日の体重", with: diet_challenge.target_weight
+    click_button "更新する"
+
+    expect(page).to have_current_path(dashboard_path)
+    expect(diet_challenge.reload.achieved_at).to be_present
   end
 
   it "今日の体重を編集しても猫の元気ポイントは増えない" do
@@ -195,6 +238,49 @@ RSpec.describe "体重記録", type: :system do
 
     expect(weight_record.weight).to eq(60.0)
   end
+
+  it "達成済みのダイエット挑戦には新しい体重を記録できない" do
+    diet_challenge.update!(achieved_at: Time.current)
+
+    visit new_user_session_path
+
+    fill_in "メールアドレス", with: user.email
+    fill_in "パスワード", with: user.password
+    click_button "ログイン"
+
+    expect(page).to have_current_path(dashboard_path)
+
+    visit new_weight_record_path
+
+    expect(page).to have_current_path(dashboard_path)
+    expect(page).not_to have_content("今日の体重を記録")
+  end
+
+  it "達成済みのダイエット挑戦の体重記録は編集できない" do
+    weight_record = create(
+      :weight_record,
+      diet_challenge: diet_challenge,
+      weight: diet_challenge.target_weight,
+      recorded_on: Date.current
+    )
+
+    diet_challenge.update!(achieved_at: Time.current)
+
+    visit new_user_session_path
+
+    fill_in "メールアドレス", with: user.email
+    fill_in "パスワード", with: user.password
+    click_button "ログイン"
+
+    expect(page).to have_current_path(dashboard_path)
+
+    visit edit_weight_record_path(weight_record)
+
+    expect(page).to have_current_path(dashboard_path)
+    expect(page).not_to have_content("今日の体重を編集")
+  end
+
+
 
   it "他のユーザーの体重記録は編集できない" do
     other_user = create(:user)

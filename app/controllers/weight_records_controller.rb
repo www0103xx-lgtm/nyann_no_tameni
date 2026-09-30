@@ -1,6 +1,7 @@
 class WeightRecordsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_current_diet_challenge
+  before_action :set_diet_challenge_for_index, only: :index
+  before_action :set_current_diet_challenge, only: %i[new create edit update]
   before_action :set_weight_record, only: %i[edit update]
 
   def index
@@ -34,6 +35,7 @@ class WeightRecordsController < ApplicationController
 
   def update
     if @weight_record.update(weight_record_params)
+      @diet_challenge.achieve_if_target_reached!(@weight_record.weight)
       redirect_to dashboard_path
     else
       render :edit, status: :unprocessable_entity
@@ -42,15 +44,34 @@ class WeightRecordsController < ApplicationController
 
   private
 
-  def set_current_diet_challenge
-    @diet_challenge = current_user.diet_challenges
-                                  .where(achieved_at: nil)
-                                  .order(started_at: :desc, id: :desc)
-                                  .first
+  def set_diet_challenge_for_index
+    @diet_challenge = current_diet_challenge || latest_achieved_diet_challenge
 
     return if @diet_challenge
 
     redirect_to new_diet_challenge_path
+  end
+
+  def set_current_diet_challenge
+    @diet_challenge = current_diet_challenge
+
+    return if @diet_challenge
+
+    redirect_to dashboard_path
+  end
+
+  def current_diet_challenge
+    current_user.diet_challenges
+                .where(achieved_at: nil)
+                .order(started_at: :desc, id: :desc)
+                .first
+  end
+
+  def latest_achieved_diet_challenge
+    current_user.diet_challenges
+                .where.not(achieved_at: nil)
+                .order(achieved_at: :desc, id: :desc)
+                .first
   end
 
   def set_weight_record
@@ -63,6 +84,7 @@ class WeightRecordsController < ApplicationController
     ActiveRecord::Base.transaction do
       @weight_record.save!
       @diet_challenge.cat.increment!(:energy_points)
+      @diet_challenge.achieve_if_target_reached!(@weight_record.weight)
     end
 
     true
