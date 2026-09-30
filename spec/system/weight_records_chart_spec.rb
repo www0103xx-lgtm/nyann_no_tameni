@@ -125,4 +125,21 @@ RSpec.describe "体重推移グラフ", type: :system, js: true do
     expect(page).to have_content("体重の推移")
     expect(page).to have_content("体重記録がまだありません")
   end
+
+  it "目標達成後もこれまでの体重記録を確認できる" do
+    create(
+      :weight_record,
+      diet_challenge: diet_challenge,
+      weight: diet_challenge.target_weight,
+      recorded_on: Date.current
+    )
+
+    diet_challenge.update!(achieved_at: Time.current)
+
+    visit weight_records_path
+
+    expect(page).to have_current_path(weight_records_path)
+    expect(page).to have_content("体重の推移")
+    expect(page).to have_content(diet_challenge.target_weight.to_s)
+  end
 end

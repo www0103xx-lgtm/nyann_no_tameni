@@ -10,6 +10,13 @@ class DietChallenge < ApplicationRecord
   validates :started_at, presence: true
   validate :target_weight_less_than_start_weight
 
+  def achieve_if_target_reached!(weight)
+    return if achieved_at.present?
+    return if weight > target_weight
+
+    update!(achieved_at: Time.current)
+  end
+
   private
 
   def target_weight_less_than_start_weight

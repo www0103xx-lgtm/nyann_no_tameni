@@ -46,10 +46,6 @@ class Cat < ApplicationRecord
   private
 
   def target_weight_achieved?
-    latest_weight_record = diet_challenge.weight_records.order(recorded_on: :desc, id: :desc).first
-
-    return false unless latest_weight_record
-
-    latest_weight_record.weight <= diet_challenge.target_weight
+    diet_challenge.achieved_at.present?
   end
 end

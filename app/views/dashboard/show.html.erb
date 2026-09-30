@@ -11,47 +11,79 @@
     <%= current_user.name %>さん、こんにちは！
   </p>
 
-  <p class="dashboard__introduction">
-    にゃんこと一緒にダイエットをはじめよう！
-  </p>
+  <% if @achieved %>
+    <div class="dashboard__achievement">
+      <h2>目標達成おめでとう！</h2>
 
-  <% if @cat %>
-    <p class="dashboard__points">
-      現在のpt：<%= @cat.energy_points %>pt
+      <% if @cat %>
+        <div class="dashboard__cat">
+          <p class="dashboard__cat-stage">
+            <%= @cat.growth_stage %>
+          </p>
+
+          <p class="dashboard__cat-message">
+            <%= @cat.message %>
+          </p>
+
+          <%= image_tag @cat.image_path,
+                        alt: @cat.growth_stage,
+                        class: "dashboard__cat-image" %>
+        </div>
+      <% end %>
+
+      <div class="dashboard__navigation">
+        <%= link_to "次のにゃんこをお世話する",
+                    new_diet_challenge_path,
+                    class: "dashboard__weight-link" %>
+
+        <%= link_to "これまでの記録",
+                    weight_records_path,
+                    class: "dashboard__records-link" %>
+      </div>
+    </div>
+  <% else %>
+    <p class="dashboard__introduction">
+      にゃんこと一緒にダイエットをはじめよう！
     </p>
-  <% end %>
 
-  <div class="dashboard__navigation">
-    <%= link_to "体重登録",
-                new_weight_record_path,
-                class: "dashboard__weight-link" %>
-
-    <%= link_to "これまでの記録",
-                weight_records_path,
-                class: "dashboard__records-link" %>
-  </div>
-
-  <div class="dashboard__status">
-    <% if @todays_weight_record %>
-      <p>体重記録ありがとう！また明日も会いに来てね！</p>
-    <% else %>
-      <p>今日の体重を記録してね！</p>
+    <% if @cat %>
+      <p class="dashboard__points">
+        現在のpt：<%= @cat.energy_points %>pt
+      </p>
     <% end %>
 
-    <p class="dashboard__remaining-weight">
-      目標体重まであと<%= @remaining_weight %>kg！！
-    </p>
-  </div>
+    <div class="dashboard__navigation">
+      <%= link_to "体重登録",
+                  new_weight_record_path,
+                  class: "dashboard__weight-link" %>
 
-  <% if @cat %>
-    <div class="dashboard__cat">
-      <p class="dashboard__cat-message">
-        <%= @cat.message %>
-      </p>
-
-      <%= image_tag @cat.image_path,
-                    alt: @cat.growth_stage,
-                    class: "dashboard__cat-image" %>
+      <%= link_to "これまでの記録",
+                  weight_records_path,
+                  class: "dashboard__records-link" %>
     </div>
+
+    <div class="dashboard__status">
+      <% if @todays_weight_record %>
+        <p>体重記録ありがとう！また明日も会いに来てね！</p>
+      <% else %>
+        <p>今日の体重を記録してね！</p>
+      <% end %>
+
+      <p class="dashboard__remaining-weight">
+        目標体重まであと<%= @remaining_weight %>kg！！
+      </p>
+    </div>
+
+    <% if @cat %>
+      <div class="dashboard__cat">
+        <p class="dashboard__cat-message">
+          <%= @cat.message %>
+        </p>
+
+        <%= image_tag @cat.image_path,
+                      alt: @cat.growth_stage,
+                      class: "dashboard__cat-image" %>
+      </div>
+    <% end %>
   <% end %>
 </div>
