@@ -142,4 +142,13 @@ RSpec.describe "体重推移グラフ", type: :system, js: true do
     expect(page).to have_content("体重の推移")
     expect(page).to have_content(diet_challenge.target_weight.to_s)
   end
+
+    it "ダイエット挑戦がない場合は挑戦開始画面へ遷移する" do
+    cat.destroy!
+    diet_challenge.destroy!
+
+    visit weight_records_path
+
+    expect(page).to have_current_path(new_diet_challenge_path)
+  end
 end

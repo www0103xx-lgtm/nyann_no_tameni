@@ -72,6 +72,9 @@ group :test do
   # Use system testing
   gem "capybara"
   gem "selenium-webdriver"
+
+  # Test coverage
+  gem "simplecov", require: false
 end
 
 gem "rails-i18n"
