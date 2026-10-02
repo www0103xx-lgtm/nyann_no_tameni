@@ -66,6 +66,9 @@ end
 group :development do
   # Use console on exceptions pages
   gem "web-console"
+
+  # Detect N+1 queries
+  gem "bullet"
 end
 
 group :test do
