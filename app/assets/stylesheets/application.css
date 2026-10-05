@@ -197,3 +197,11 @@
     width: 100%;
   }
 }
+
+.diet-challenge-form__field {
+  margin-bottom: 20px;
+}
+
+.diet-challenge-form__logout {
+  margin-top: 24px;
+}
