@@ -43,6 +43,13 @@ RSpec.describe ReminderMailer, type: :mailer do
       described_class.weight_reminder(user, cat).body.encoded
     end
 
+    it "体重記録へのリンクが本文に表示される" do
+      mail = described_class.weight_reminder(user, cat)
+
+      expect(mail.body.encoded).to include("体重を記録する")
+      expect(mail.body.encoded).to include("http://example.com/")
+    end
+
     it "リマインダーメールを送信できる" do
       expect {
         described_class.weight_reminder(user, cat).deliver_now
