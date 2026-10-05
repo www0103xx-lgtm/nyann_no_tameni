@@ -23,7 +23,7 @@ class WeightRecordsController < ApplicationController
     @weight_record = @diet_challenge.weight_records.build(weight_record_params)
     @weight_record.recorded_on = Date.current
 
-    if save_weight_record_with_energy_point
+    if WeightRecordCreationService.new(@weight_record).call
       redirect_to dashboard_path
     else
       render :new, status: :unprocessable_entity
@@ -62,32 +62,20 @@ class WeightRecordsController < ApplicationController
 
   def current_diet_challenge
     current_user.diet_challenges
-                .where(achieved_at: nil)
+                .active
                 .order(started_at: :desc, id: :desc)
                 .first
   end
 
   def latest_achieved_diet_challenge
     current_user.diet_challenges
-                .where.not(achieved_at: nil)
+                .achieved
                 .order(achieved_at: :desc, id: :desc)
                 .first
   end
 
   def set_weight_record
     @weight_record = @diet_challenge.weight_records.find(params[:id])
-  end
-
-  def save_weight_record_with_energy_point
-    return false unless @weight_record.valid?
-
-    ActiveRecord::Base.transaction do
-      @weight_record.save!
-      @diet_challenge.cat.increment!(:energy_points)
-      @diet_challenge.achieve_if_target_reached!(@weight_record.weight)
-    end
-
-    true
   end
 
   def weight_record_params

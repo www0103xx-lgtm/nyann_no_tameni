@@ -21,7 +21,7 @@ class DietChallengesController < ApplicationController
   private
 
   def redirect_if_active_challenge
-    return unless current_user.diet_challenges.where(achieved_at: nil).exists?
+    return unless current_user.diet_challenges.active.exists?
 
     redirect_to dashboard_path
   end
