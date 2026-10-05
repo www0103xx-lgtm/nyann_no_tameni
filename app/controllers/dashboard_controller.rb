@@ -30,14 +30,14 @@ class DashboardController < ApplicationController
 
   def current_diet_challenge
     current_user.diet_challenges
-                .where(achieved_at: nil)
+                .active
                 .order(started_at: :desc, id: :desc)
                 .first
   end
 
   def latest_achieved_diet_challenge
     current_user.diet_challenges
-                .where.not(achieved_at: nil)
+                .achieved
                 .order(achieved_at: :desc, id: :desc)
                 .first
   end
