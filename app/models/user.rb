@@ -7,4 +7,5 @@ class User < ApplicationRecord
   has_many :diet_challenges
 
   validates :name, presence: true
+  validates :password_confirmation, presence: true, if: :password_required?
 end
