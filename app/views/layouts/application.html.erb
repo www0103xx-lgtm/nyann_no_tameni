@@ -24,6 +24,12 @@
   </head>
 
   <body>
+    <% if notice.present? %>
+      <div class="flash-notice">
+        <p><%= notice %></p>
+      </div>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
