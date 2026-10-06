@@ -1,6 +1,12 @@
 ja:
   activerecord:
+    models:
+      user: "ユーザー"
+
     attributes:
+      user:
+        password: "パスワード"
+        password_confirmation: "パスワード確認"
       diet_challenge:
         start_weight: "現在の体重"
         target_weight: "目標体重"
@@ -10,6 +16,15 @@ ja:
         recorded_on: "記録日"
       cat:
         name: "猫の名前"
+
+  devise:
+    mailer:
+      reset_password_instructions:
+        subject: "パスワード再設定のご案内"
+
+    passwords:
+      send_instructions: "パスワード再設定用の案内を送信しました。メールをご確認ください。"
+      send_paranoid_instructions: "パスワード再設定用の案内を送信しました。メールをご確認ください。"
 
   errors:
     messages:
