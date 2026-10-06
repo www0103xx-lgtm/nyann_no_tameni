@@ -10,3 +10,9 @@ ja:
         recorded_on: "記録日"
       cat:
         name: "猫の名前"
+
+  errors:
+    messages:
+      not_saved:
+        one: "エラーが発生したため%{resource}を保存できませんでした。"
+        other: "%{count}件のエラーが発生したため%{resource}を保存できませんでした。"
