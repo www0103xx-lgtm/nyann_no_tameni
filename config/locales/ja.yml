@@ -26,6 +26,9 @@ ja:
       send_instructions: "パスワード再設定用の案内を送信しました。メールをご確認ください。"
       send_paranoid_instructions: "パスワード再設定用の案内を送信しました。メールをご確認ください。"
 
+    sessions:
+      signed_out: "ログアウトしました。"
+
   errors:
     messages:
       not_saved:

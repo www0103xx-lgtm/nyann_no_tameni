@@ -72,7 +72,7 @@ RSpec.describe "ログイン・ログアウト", type: :system do
   end
 
   describe "ログアウト" do
-    it "ログアウトできる" do
+    it "ログアウト後に日本語のメッセージを表示する" do
       diet_challenge = create(:diet_challenge, user: user)
       create(:cat, diet_challenge: diet_challenge)
 
@@ -85,6 +85,8 @@ RSpec.describe "ログイン・ログアウト", type: :system do
       click_button "ログアウト"
 
       expect(page).to have_current_path(root_path)
+      expect(page).to have_content("ログアウトしました。")
+      expect(page).not_to have_content("Translation missing")
       expect(page).to have_link("新規登録")
       expect(page).to have_link("ログイン")
       expect(page).not_to have_button("ログアウト")
