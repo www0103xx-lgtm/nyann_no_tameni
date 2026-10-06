@@ -209,3 +209,7 @@
 .registration-form__error {
   color: #d9534f;
 }
+
+.login-form__error {
+  color: #d9534f;
+}
