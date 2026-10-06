@@ -39,6 +39,36 @@ RSpec.describe "ログイン・ログアウト", type: :system do
         expect(page).not_to have_link("ログイン")
       end
     end
+
+    context "パスワードが正しくない場合" do
+      it "汎用的なエラーメッセージを表示する" do
+        user
+
+        visit new_user_session_path
+
+        fill_in "メールアドレス", with: user.email
+        fill_in "パスワード", with: "wrong-password"
+
+        click_button "ログイン"
+
+        expect(page).to have_current_path(new_user_session_path)
+        expect(page).to have_content("ログインに失敗しました。")
+      end
+    end
+
+    context "登録されていないメールアドレスの場合" do
+      it "同じ汎用的なエラーメッセージを表示する" do
+        visit new_user_session_path
+
+        fill_in "メールアドレス", with: "unknown@example.com"
+        fill_in "パスワード", with: "password"
+
+        click_button "ログイン"
+
+        expect(page).to have_current_path(new_user_session_path)
+        expect(page).to have_content("ログインに失敗しました。")
+      end
+    end
   end
 
   describe "ログアウト" do
