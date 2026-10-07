@@ -13,7 +13,7 @@ RSpec.describe "ユーザー登録", type: :system do
     end
 
     context "入力内容が正常な場合" do
-      it "ユーザー登録後にダイエット挑戦開始画面へ遷移する" do
+      it "ユーザー登録後にダイエット挑戦開始画面へ遷移し、登録完了メッセージを表示する" do
         visit new_user_registration_path
 
         fill_in "名前", with: "テストユーザー"
@@ -24,6 +24,8 @@ RSpec.describe "ユーザー登録", type: :system do
         click_button "登録する"
 
         expect(page).to have_current_path(new_diet_challenge_path)
+        expect(page).to have_content("新規登録が完了しました。")
+        expect(page).not_to have_content("Translation missing")
       end
     end
 
