@@ -77,13 +77,11 @@ RSpec.describe "パスワード再設定", type: :system do
       fill_in "新しいパスワード（確認）", with: "newpassword123"
       click_button "パスワードを変更"
 
-      visit new_user_session_path
+      expect(page).to have_content("パスワードを変更しました。")
+      expect(page).not_to have_content("Translation missing")
 
-      fill_in "メールアドレス", with: user.email
-      fill_in "パスワード", with: "newpassword123"
-      click_button "ログイン"
-
-      expect(page).to have_current_path(new_diet_challenge_path)
+      user.reload
+      expect(user.valid_password?("newpassword123")).to be true
     end
 
     it "パスワードが一致しない場合は分かりやすいエラーメッセージを表示する" do
