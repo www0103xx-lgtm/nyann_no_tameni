@@ -27,6 +27,9 @@ ja:
       send_paranoid_instructions: "パスワード再設定用の案内を送信しました。メールをご確認ください。"
       updated: "パスワードを変更しました。"
 
+    registrations:
+      signed_up: "新規登録が完了しました。"
+
     sessions:
       signed_in: ""
       signed_out: "ログアウトしました。"
