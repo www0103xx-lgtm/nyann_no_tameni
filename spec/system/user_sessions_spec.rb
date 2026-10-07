@@ -16,6 +16,7 @@ RSpec.describe "ログイン・ログアウト", type: :system do
         click_button "ログイン"
 
         expect(page).to have_current_path(new_diet_challenge_path)
+        expect(page).not_to have_content("Translation missing")
       end
     end
 
@@ -34,6 +35,7 @@ RSpec.describe "ログイン・ログアウト", type: :system do
         click_button "ログイン"
 
         expect(page).to have_current_path(dashboard_path)
+        expect(page).not_to have_content("Translation missing")
         expect(page).to have_button("ログアウト")
         expect(page).not_to have_link("新規登録")
         expect(page).not_to have_link("ログイン")
