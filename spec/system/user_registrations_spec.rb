@@ -2,6 +2,16 @@ require "rails_helper"
 
 RSpec.describe "ユーザー登録", type: :system do
   describe "新規登録" do
+    it "見出しからトップページへ戻れる" do
+      visit new_user_registration_path
+
+      expect(page).to have_link("にゃんのために。", href: root_path)
+
+      click_link "にゃんのために。"
+
+      expect(page).to have_current_path(root_path)
+    end
+
     context "入力内容が正常な場合" do
       it "ユーザー登録後にダイエット挑戦開始画面へ遷移する" do
         visit new_user_registration_path

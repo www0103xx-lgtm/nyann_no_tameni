@@ -1,5 +1,5 @@
 <div class="top-page">
-  <h1>にゃんのために。</h1>
+  <h1 class="site-title">にゃんのために。</h1>
 
   <p>
     ダイエットが続かないあなたへ。
@@ -11,7 +11,11 @@
 
   <div class="top-page__actions">
     <% if user_signed_in? %>
-      <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+      <%= link_to "ユーザートップ", dashboard_path %>
+      <%= button_to "ログアウト",
+                    destroy_user_session_path,
+                    method: :delete,
+                    class: "top-page__logout" %>
     <% else %>
       <%= link_to "新規登録", new_user_registration_path %>
       <%= link_to "ログイン", new_user_session_path %>

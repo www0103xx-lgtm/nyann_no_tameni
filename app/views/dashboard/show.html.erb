@@ -1,6 +1,8 @@
 <div class="dashboard">
   <div class="dashboard__header">
-    <h1>にゃんのために。</h1>
+<h1 class="site-title">
+  <%= link_to "にゃんのために。", root_path %>
+</h1>
 
     <div class="dashboard__actions">
       <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
