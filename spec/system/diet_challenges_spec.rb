@@ -14,6 +14,14 @@ RSpec.describe "ダイエット挑戦開始", type: :system do
       expect(page).to have_current_path(new_diet_challenge_path)
     end
 
+    it "見出しからトップページへ戻れる" do
+      expect(page).to have_link("にゃんのために。", href: root_path)
+
+      click_link "にゃんのために。"
+
+      expect(page).to have_current_path(root_path)
+    end
+
     it "初期設定画面を表示できる" do
       expect(page).to have_content("にゃんのために。")
       expect(page).to have_field("現在の体重")

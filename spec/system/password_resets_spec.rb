@@ -2,6 +2,16 @@ require "rails_helper"
 
 RSpec.describe "パスワード再設定", type: :system do
   describe "パスワード再設定メール送信画面" do
+    it "見出しからトップページへ戻れる" do
+      visit new_user_password_path
+
+      expect(page).to have_link("にゃんのために。", href: root_path)
+
+      click_link "にゃんのために。"
+
+      expect(page).to have_current_path(root_path)
+    end
+
     it "日本語で表示される" do
       visit new_user_password_path
 
@@ -47,6 +57,18 @@ RSpec.describe "パスワード再設定", type: :system do
 
   describe "パスワードの再設定" do
     let!(:user) { create(:user) }
+
+    it "見出しからトップページへ戻れる" do
+      reset_password_token = user.send_reset_password_instructions
+
+      visit edit_user_password_path(reset_password_token: reset_password_token)
+
+      expect(page).to have_link("にゃんのために。", href: root_path)
+
+      click_link "にゃんのために。"
+
+      expect(page).to have_current_path(root_path)
+    end
 
     it "再設定メールの件名と本文が日本語で表示される" do
       user.send_reset_password_instructions

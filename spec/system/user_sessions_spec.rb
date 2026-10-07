@@ -4,6 +4,16 @@ RSpec.describe "ログイン・ログアウト", type: :system do
   let(:user) { create(:user) }
 
   describe "ログイン" do
+    it "見出しからトップページへ戻れる" do
+      visit new_user_session_path
+
+      expect(page).to have_link("にゃんのために。", href: root_path)
+
+      click_link "にゃんのために。"
+
+      expect(page).to have_current_path(root_path)
+    end
+
     context "進行中のダイエット挑戦がない場合" do
       it "ログイン後にダイエット挑戦開始画面へ遷移する" do
         user

@@ -46,6 +46,14 @@ RSpec.describe "ユーザートップ", type: :system do
         expect(page).to have_current_path(dashboard_path)
       end
 
+      it "見出しからトップページへ戻れる" do
+        expect(page).to have_link("にゃんのために。", href: root_path)
+
+        click_link "にゃんのために。"
+
+        expect(page).to have_current_path(root_path)
+      end
+
       it "ユーザーへの挨拶と案内を表示できる" do
         expect(page).to have_content("#{user.name}さん、こんにちは！")
         expect(page).to have_content("にゃんこと一緒にダイエットをはじめよう！")

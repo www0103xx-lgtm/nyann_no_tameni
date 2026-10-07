@@ -213,3 +213,22 @@
 .login-form__error {
   color: #d9534f;
 }
+
+.site-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.top-page__actions form {
+  display: inline;
+}
+
+.top-page__logout {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
